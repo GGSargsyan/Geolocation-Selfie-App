@@ -16,8 +16,14 @@
                 const lat = position.coords.latitude;
                 const lon = position.coords.longitude;
 
-                document.getElementById('latitude').textContent = lat;
-                document.getElementById('longitude').textContent = lon;
+                //document.getElementById('latitude').textContent = lat;
+                //document.getElementById('longitude').textContent = lon;
+                document.getElementById('submit').addEventListener("click", function(){
+                    document.getElementById('latitude').textContent = lat;
+                });
+                document.getElementById('submit').addEventListener("click", function(){
+                    document.getElementById('longitude').textContent = lon;
+                });
             });
         } else {
             console.log('geolocation not available')
@@ -29,5 +35,6 @@
             latitude: <span id="latitude"></span>&deg;</br>
             longitude: <span id="longitude"></span>&deg;</br>
         </p>
+        <button id="submit">Click to find Geolocation</button>
     </body>
 </html>
