@@ -16,27 +16,31 @@
                 const lat = position.coords.latitude;
                 const lon = position.coords.longitude;
 
-                //document.getElementById('latitude').textContent = lat;
-                //document.getElementById('longitude').textContent = lon;
-                document.getElementById('submit').addEventListener("click", function(){
-                    document.getElementById('latitude').textContent = lat+'\u00B0';
-                });
-                document.getElementById('submit').addEventListener("click", function(){
-                    document.getElementById('longitude').textContent = lon+'\u00B0';
-                });
+                document.getElementById('latitude').textContent = lat;
+                document.getElementById('longitude').textContent = lon;
 
-                //API POST functionality
-                const data = {lat, lon};
-                const options = {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                };
-                const response = await fetch('/api', options);
-                const json = await response.json();
-                console.log(json);
+                //document.getElementById('submit').addEventListener("click", function(){
+                //    document.getElementById('latitude').textContent = lat+'\u00B0';
+                //});
+                //document.getElementById('submit').addEventListener("click", function(){
+                //    document.getElementById('longitude').textContent = lon+'\u00B0';
+                //});
+
+                document.getElementById('submit').addEventListener('click', async event =>{
+                    //API POST functionality
+                    const data = {lat, lon};
+                    const options = {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    };
+                    const response = await fetch('/api', options);
+                    const json = await response.json();
+                    console.log(json);
+                });
+                
             });
         } else {
             console.log('geolocation not available');
@@ -45,9 +49,9 @@
         <h1>Geo Selfie App</h1>
 
         <p id="degrees display">
-            latitude: <span id="latitude"></span></br>
-            longitude: <span id="longitude"></span></br>
+            latitude: <span id="latitude"></span>&deg;</br>
+            longitude: <span id="longitude"></span>&deg;</br>
         </p>
-        <button id="submit">Click to find Geolocation</button>
+        <button id="submit">Sumbit Geolocation</button>
     </body>
 </html>
