@@ -13,8 +13,8 @@
 
             navigator.geolocation.getCurrentPosition(async position => 
             {
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
+                let lat = position.coords.latitude;
+                let lon = position.coords.longitude;
 
                 document.getElementById('latitude').textContent = lat;
                 document.getElementById('longitude').textContent = lon;
@@ -28,7 +28,8 @@
 
                 document.getElementById('submit').addEventListener('click', async event =>{
                     //API POST functionality
-                    const data = {lat, lon};
+                    const userText = document.getElementById('userSaid').value;
+                    const data = {lat, lon, userText};
                     const options = {
                         method: 'POST',
                         headers: {
@@ -38,7 +39,7 @@
                     };
                     const response = await fetch('/api', options);
                     const json = await response.json();
-                    console.log(json);
+                    console.log("Data Sent to DB");
                 });
                 
             });
@@ -51,7 +52,10 @@
         <p id="degrees display">
             latitude: <span id="latitude"></span>&deg;</br>
             longitude: <span id="longitude"></span>&deg;</br>
+            </br>
         </p>
-        <button id="submit">Sumbit Geolocation</button>
+        <b>Say Something to Remember</b></br>
+        <input id="userSaid"/></br>
+        <button id="submit">Submit</button>
     </body>
 </html>
