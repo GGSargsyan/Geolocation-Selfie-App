@@ -6,7 +6,8 @@
     <title>Home</title>
 </head>
 <body>
-    <h1>Data Selfie App</h1>
+    <h1>Geo Selfie App - Old Entries</h1>
+    <div><a href="index.html">enter</a> | <a href="home.html">list</a></div>
     <script>
         getData();
         async function getData(){
@@ -14,17 +15,19 @@
             const data = await response.json();
 
             for(e of data){
-                const root = document.createElement('div');
+                const root = document.createElement('p');
                 const talk = document.createElement('div');
                 const geo = document.createElement('div');
                 const date = document.createElement('div');
+                const image = document.createElement('img');
 
-                talk.textContent = `text: ${e.userText}`;
+                talk.textContent = `User Said: ${e.userText}`;
                 geo.textContent = `${e.lat}°, ${e.lon}°`;
                 const dateString = new Date(e.timestamp).toLocaleString();
                 date.textContent = dateString;
+                image.src = e.imageBase64;
 
-                root.append(talk, geo, date);
+                root.append(talk, geo, date, image);
                 document.body.append(root);
             }
             console.log(data);

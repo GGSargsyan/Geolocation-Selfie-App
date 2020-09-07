@@ -4,58 +4,74 @@
         <meta charset="UTF-8" />
         <meta name="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie-edge"/>
+        <script 
+            src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js" 
+            integrity="sha512-RvZgNFwDeJ4oPjuhkIrBki+I1LjEW6TXbQ+qHFKEPOR126hk1dkg+cvOCW6vUTHQEcryzTmEzTkvHKcGpEFNUw==" 
+            crossorigin="anonymous">
+        </script>
+        <script 
+            src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js" 
+            integrity="sha512-lfl7IG9TmPKTuZ2ZIx2xfPRn2qWnfIleGc1LR7gm9jZOUVjki7lWJZJb1aB6AmxW3IL+2H98CgnXM3KtUV9BWw==" 
+            crossorigin="anonymous">
+        </script>
         <title>Document</title>
     </head>
     <body>
         <script>
-        if('geolocation' in navigator) {
-            console.log('geolocation available');
+            function setup(){
 
-            navigator.geolocation.getCurrentPosition(async position => 
-            {
-                let lat = position.coords.latitude;
-                let lon = position.coords.longitude;
+                noCanvas();
+                const video = createCapture(VIDEO);
+                video.size(320, 240);
 
-                document.getElementById('latitude').textContent = lat;
-                document.getElementById('longitude').textContent = lon;
+                if('geolocation' in navigator) {
+                console.log('geolocation available');
 
-                //document.getElementById('submit').addEventListener("click", function(){
-                //    document.getElementById('latitude').textContent = lat+'\u00B0';
-                //});
-                //document.getElementById('submit').addEventListener("click", function(){
-                //    document.getElementById('longitude').textContent = lon+'\u00B0';
-                //});
+                navigator.geolocation.getCurrentPosition(async position => 
+                {
+                    let lat = position.coords.latitude;
+                    let lon = position.coords.longitude;
 
-                document.getElementById('submit').addEventListener('click', async event =>{
-                    //API POST functionality
-                    const userText = document.getElementById('userSaid').value;
-                    const data = {lat, lon, userText};
-                    const options = {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(data)
-                    };
-                    const response = await fetch('/api', options);
-                    const json = await response.json();
-                    console.log("Data Sent to DB");
+                    document.getElementById('latitude').textContent = lat;
+                    document.getElementById('longitude').textContent = lon;
+
+                    document.getElementById('submit').addEventListener('click', async event =>{
+                        //API POST functionality
+                        const userText = document.getElementById('userSaid').value;
+                        video.loadPixels();
+                        const imageBase64 = video.canvas.toDataURL();
+                        //Later on try to store the image to a file and put that file
+                        //into the database instead of the image string
+                        const data = {lat, lon, userText, imageBase64};
+                        const options = {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(data)
+                        };
+                        const response = await fetch('/api', options);
+                        const json = await response.json();
+                        console.log(data);
+                    });
+                    
                 });
-                
-            });
-        } else {
-            console.log('geolocation not available');
-        }
-        </script>
-        <h1>Geo Selfie App</h1>
+                } else {
+                    console.log('geolocation not available');
+                }
+            }
 
+            
+        </script>
+        <h1>Geo Selfie App - New Entry</h1>
+        <div><a href="index.html">enter</a> | <a href="home.html">list</a></div>
         <p id="degrees display">
             latitude: <span id="latitude"></span>&deg;</br>
             longitude: <span id="longitude"></span>&deg;</br>
             </br>
+            <b>Say Something to Remember</b></br>
+            <input id="userSaid"/>
+            <button id="submit">Submit</button>
         </p>
-        <b>Say Something to Remember</b></br>
-        <input id="userSaid"/></br>
-        <button id="submit">Submit</button>
     </body>
 </html>
