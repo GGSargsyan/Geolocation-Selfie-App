@@ -1,5 +1,21 @@
 getData();
 
+const posts = [];
+document.getElementById('time').addEventListener('click', event => {
+    sortData((a, b) => b.time - a.time);
+});
+
+
+function sortData(compare) {
+    for (let e of posts) {
+      e.elt.remove();
+    }
+    posts.sort(compare);
+    for (let e of posts) {
+      document.body.append(e.elt);
+    }
+  }
+
 async function getData(){
     const response = await fetch('/api');
     const data = await response.json();
@@ -19,6 +35,7 @@ async function getData(){
         image.alt = "Picture of user from webcam";
 
         root.append(talk, geo, date, image);
+        posts.push({ elt: root, time: e.timestamp });
         document.body.append(root);
     }
     console.log(data);
