@@ -1,7 +1,7 @@
 const express = require('express');
 const Datastore = require('nedb');
 const app = express();
-app.listen(3003, () => console.log('listening at post 3003'));
+app.listen(process.env.PORT || 3003, () => console.log('listening at post 3003'));
 app.use(express.static(__dirname + '/'));
 
 //Gives server the ability to parse incoming data as json
