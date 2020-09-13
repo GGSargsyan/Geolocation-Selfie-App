@@ -4,34 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
 <body>
     <h1>Geo Selfie App - Old Entries</h1>
     <div><a href="index.html">enter</a> | <a href="home.html">list</a></div>
-    <script>
-        getData();
-        async function getData(){
-            const response = await fetch('/api');
-            const data = await response.json();
-
-            for(e of data){
-                const root = document.createElement('p');
-                const talk = document.createElement('div');
-                const geo = document.createElement('div');
-                const date = document.createElement('div');
-                const image = document.createElement('img');
-
-                talk.textContent = `User Said: ${e.userText}`;
-                geo.textContent = `${e.lat}°, ${e.lon}°`;
-                const dateString = new Date(e.timestamp).toLocaleString();
-                date.textContent = dateString;
-                image.src = e.imageBase64;
-
-                root.append(talk, geo, date, image);
-                document.body.append(root);
-            }
-            console.log(data);
-        }
-    </script>
+    <script src="logs.js"></script>
 </body>
 </html>
